@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verisphere — stake on what's true</title>
+<meta name="description" content="Verisphere is a decentralized claims-verification protocol on Avalanche: post a public claim, stake on its accuracy, let settlement pay the side that was right. Pre-launch, live on Fuji testnet.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='26' fill='none' stroke='%235B4BC4' stroke-width='5'/%3E%3Cpath d='M22 33l7 7 14-15' fill='none' stroke='%231F9D6B' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAFAFC; --ink:#1C1533; --muted:#5D5776;
+  --violet:#5B4BC4; --violet-deep:#37299B; --lilac:#EDEAFB; --line:#DCD8EE;
+  --verify:#1F9D6B;
+  --display:"Space Grotesk",sans-serif; --body:"IBM Plex Sans",sans-serif; --mono:"IBM Plex Mono",monospace;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
+a{color:var(--violet-deep);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible{outline:3px solid var(--violet);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+header{border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+.brand{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:700;letter-spacing:.14em;font-size:15px;color:var(--ink)}
+.brand svg{display:block}
+.nav-links{display:flex;gap:26px;font-size:15px;font-weight:500}
+
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding:84px 0 72px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(40px,5.4vw,62px);line-height:1.04;letter-spacing:-.015em}
+h1 .true{color:var(--violet);position:relative;white-space:nowrap}
+h1 .true::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.14em;background:var(--lilac);z-index:-1}
+.sub{margin-top:22px;font-size:19px;color:var(--muted);max-width:44ch}
+.sub b{color:var(--ink);font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:9px;margin-top:30px;padding:9px 16px;border:1px solid var(--line);border-radius:999px;font-family:var(--mono);font-size:13px;color:var(--violet-deep);background:#fff}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:var(--verify);box-shadow:0 0 0 4px rgba(31,157,107,.14)}
+
+/* signature: the claim card */
+.claim{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 24px 60px -30px rgba(55,41,155,.25);padding:26px 26px 22px;font-size:15px}
+.claim-head{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12.5px;color:var(--muted);letter-spacing:.04em}
+.claim-text{font-family:var(--display);font-weight:500;font-size:21px;line-height:1.35;margin:14px 0 20px}
+.meter{margin:12px 0}
+.meter-label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12.5px;margin-bottom:6px;color:var(--muted)}
+.meter-label .amt{color:var(--ink)}
+.bar{height:9px;border-radius:6px;background:var(--lilac);overflow:hidden}
+.fill{height:100%;border-radius:6px;width:0}
+.fill.support{background:linear-gradient(90deg,var(--violet),var(--violet-deep))}
+.fill.challenge{background:#C9C3E8}
+.verdict{display:flex;align-items:center;gap:10px;margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);font-weight:600;color:var(--verify)}
+.verdict svg .tick{stroke-dasharray:40;stroke-dashoffset:40}
+.verdict span small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+@media (prefers-reduced-motion:no-preference){
+  .fill.support{animation:grow 1.1s .3s cubic-bezier(.2,.7,.2,1) forwards}
+  .fill.challenge{animation:grow2 1.1s .3s cubic-bezier(.2,.7,.2,1) forwards}
+  .verdict svg .tick{animation:draw .5s 1.5s ease-out forwards}
+  .verdict span{opacity:0;animation:appear .4s 1.6s forwards}
+  @keyframes grow{to{width:78%}} @keyframes grow2{to{width:22%}}
+  @keyframes draw{to{stroke-dashoffset:0}} @keyframes appear{to{opacity:1}}
+}
+@media (prefers-reduced-motion:reduce){
+  .fill.support{width:78%}.fill.challenge{width:22%}.verdict svg .tick{stroke-dashoffset:0}
+}
+
+/* protocol flow — a real sequence, so numbers carry meaning */
+.flow{border-top:1px solid var(--line);padding:64px 0}
+.flow h2, .status h2{font-family:var(--display);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:34px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.step .n{font-family:var(--mono);color:var(--violet);font-size:14px}
+.step h3{font-family:var(--display);font-size:21px;margin:8px 0 8px}
+.step p{color:var(--muted);font-size:16px}
+
+.status{border-top:1px solid var(--line);padding:56px 0 64px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.fact{background:#fff;padding:20px 22px}
+.fact .k{font-family:var(--mono);font-size:12.5px;color:var(--muted);letter-spacing:.04em}
+.fact .v{font-weight:600;margin-top:6px}
+.fact .v a{color:var(--ink)}
+
+footer{border-top:1px solid var(--line);background:var(--lilac)}
+.foot{padding:36px 0;display:flex;flex-wrap:wrap;gap:18px 40px;justify-content:space-between;font-size:14.5px;color:var(--muted)}
+.foot .legal{max-width:56ch}
+.foot .links{display:flex;gap:22px;align-items:start}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;gap:44px;padding:56px 0}
+  .steps{grid-template-columns:1fr;gap:28px}
+  .nav-links{gap:18px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="26" fill="none" stroke="#5B4BC4" stroke-width="5"/>
+        <circle cx="32" cy="6" r="4" fill="#5B4BC4"/><circle cx="55" cy="19" r="4" fill="#5B4BC4"/>
+        <circle cx="55" cy="45" r="4" fill="#7A6AE0"/><circle cx="32" cy="58" r="4" fill="#7A6AE0"/>
+        <circle cx="9" cy="45" r="4" fill="#5B4BC4"/><circle cx="9" cy="19" r="4" fill="#7A6AE0"/>
+        <path d="M22 33l7 7 14-15" fill="none" stroke="#1F9D6B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      VERISPHERE
+    </div>
+    <nav class="nav-links">
+      <a href="https://github.com/VerisphereVSP">GitHub</a>
+      <a href="https://github.com/VerisphereVSP/core/blob/main/SECURITY.md">Security</a>
+      <a href="mailto:info@verisphere.co">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div>
+      <h1>Stake on<br>what's <span class="true">true</span>.</h1>
+      <p class="sub">Verisphere is a claims-verification protocol on Avalanche. Anyone can post a public claim; anyone can <b>stake tokens on its accuracy</b> — supporting it or challenging it. Settlement pays the side that turns out to be right.</p>
+      <div class="pill"><span class="dot"></span>Pre-launch — live on Avalanche Fuji testnet</div>
+    </div>
+
+    <div class="claim" role="img" aria-label="Example claim card: a public claim with support and challenge stakes, settled as verified">
+      <div class="claim-head"><span>CLAIM #0142</span><span>epoch 87 · settled</span></div>
+      <p class="claim-text">"The dataset behind this benchmark was published before the model's training cutoff."</p>
+      <div class="meter">
+        <div class="meter-label"><span>SUPPORT</span><span class="amt">7,800 VSP</span></div>
+        <div class="bar"><div class="fill support"></div></div>
+      </div>
+      <div class="meter">
+        <div class="meter-label"><span>CHALLENGE</span><span class="amt">2,200 VSP</span></div>
+        <div class="bar"><div class="fill challenge"></div></div>
+      </div>
+      <div class="verdict">
+        <svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="26" fill="none" stroke="#1F9D6B" stroke-width="5"/>
+          <path class="tick" d="M22 33l7 7 14-15" fill="none" stroke="#1F9D6B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Verified at settlement<small>Accurate stakes earned; inaccurate stakes paid.</small></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="flow">
+    <div class="wrap">
+      <h2>How the protocol works</h2>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><h3>Post a claim</h3><p>A claim is a public, checkable statement, registered on-chain with an open record of who said it and when.</p></div>
+        <div class="step"><div class="n">2</div><h3>Stake on accuracy</h3><p>Holders stake VSP to support or challenge the claim. Stake size and timing set each side's position — conviction has a cost.</p></div>
+        <div class="step"><div class="n">3</div><h3>Settle</h3><p>At settlement, the accurate side earns from the inaccurate side under fixed, audited rules. No committee, no moderator — economics does the arguing.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="status">
+    <div class="wrap">
+      <h2>Where things stand</h2>
+      <div class="facts">
+        <div class="fact"><div class="k">STATUS</div><div class="v">Pre-launch · Fuji testnet (chain 43113)</div></div>
+        <div class="fact"><div class="k">CONTRACTS</div><div class="v"><a href="https://github.com/VerisphereVSP/core">Public on GitHub</a></div></div>
+        <div class="fact"><div class="k">SECURITY</div><div class="v">Independent review underway · <a href="https://github.com/VerisphereVSP/core/blob/main/SECURITY.md">disclosure policy</a></div></div>
+        <div class="fact"><div class="k">REVENUE MODEL</div><div class="v">Protocol fees</div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="legal">
+      <b>Verisphere Corp.</b>, a Delaware corporation.<br>
+      Verisphere develops software. It is non-custodial and is not an exchange, broker, or money services business. Nothing on this page is an offer to sell any asset.
+    </div>
+    <div class="links">
+      <a href="https://github.com/VerisphereVSP">GitHub</a>
+      <a href="mailto:info@verisphere.co">info@verisphere.co</a>
+      <span>© 2026 Verisphere Corp.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
