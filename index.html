@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Verisphere — stake on what's true</title>
-<meta name="description" content="Verisphere is a decentralized claims-verification protocol on Avalanche: post a public claim, stake on its accuracy, and each epoch accurate stakes gain and inaccurate stakes lose, each on its own terms. Pre-launch, live on Fuji testnet.">
+<meta name="description" content="Verisphere is a decentralized claims-verification protocol on Avalanche: post a public claim, stake on its accuracy, and each epoch accurate stakes gain and inaccurate stakes lose, each on its own terms. Private beta on Avalanche.">
 <link rel="icon" type="image/png" href="verisphere-icon.png"><!-- patch_www01_logo --><link rel="alternate icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='26' fill='none' stroke='%235B4BC4' stroke-width='5'/%3E%3Cpath d='M22 33l7 7 14-15' fill='none' stroke='%231F9D6B' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,14 +23,15 @@ a{color:var(--violet-deep);text-decoration:none}
 a:hover{text-decoration:underline}
 a:focus-visible,button:focus-visible{outline:3px solid var(--violet);outline-offset:2px;border-radius:4px}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+/* patch_www04_mobile_gutter: .nav/.hero/.foot share the .wrap element; their vertical padding must not zero its 24px side gutter (it did, so phones had none). */
 
 header{border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+.nav{display:flex;align-items:center;justify-content:space-between;padding-block:20px}
 .brand{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:700;letter-spacing:.14em;font-size:15px;color:var(--ink)}
 .brand svg{display:block}
 .nav-links{display:flex;gap:26px;font-size:15px;font-weight:500}
 
-.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding:84px 0 72px}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding-block:84px 72px}
 h1{font-family:var(--display);font-weight:700;font-size:clamp(40px,5.4vw,62px);line-height:1.04;letter-spacing:-.015em}
 h1 .true{color:var(--violet);position:relative;white-space:nowrap}
 h1 .true::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.14em;background:var(--lilac);z-index:-1}
@@ -38,6 +39,13 @@ h1 .true::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:
 .sub b{color:var(--ink);font-weight:600}
 .pill{display:inline-flex;align-items:center;gap:9px;margin-top:30px;padding:9px 16px;border:1px solid var(--line);border-radius:999px;font-family:var(--mono);font-size:13px;color:var(--violet-deep);background:#fff}
 .pill .dot{width:8px;height:8px;border-radius:50%;background:var(--verify);box-shadow:0 0 0 4px rgba(31,157,107,.14)}
+/* patch_www03_app_link: the application lives at app.verisphere.co */
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:30px}
+.cta-row .pill{margin-top:0}
+.btn-app{display:inline-flex;align-items:center;padding:11px 20px;border-radius:999px;background:var(--violet);color:#fff;font-weight:600;font-size:15px;box-shadow:0 10px 24px -12px rgba(55,41,155,.6)}
+.btn-app:hover{text-decoration:none;filter:brightness(1.08)}
+.nav-app{padding:7px 14px;border:1px solid var(--violet);border-radius:999px;color:var(--violet-deep)}
+.nav-app:hover{background:var(--violet);color:#fff;text-decoration:none}
 
 /* signature: the claim card */
 .claim{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 24px 60px -30px rgba(55,41,155,.25);padding:26px 26px 22px;font-size:15px}
@@ -81,19 +89,22 @@ h1 .true::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:
 .fact .v a{color:var(--ink)}
 
 footer{border-top:1px solid var(--line);background:var(--lilac)}
-.foot{padding:36px 0;display:flex;flex-wrap:wrap;gap:18px 40px;justify-content:space-between;font-size:14.5px;color:var(--muted)}
+.foot{padding-block:36px;display:flex;flex-wrap:wrap;gap:18px 40px;justify-content:space-between;font-size:14.5px;color:var(--muted)}
 .foot .legal{max-width:56ch}
 .foot .links{display:flex;gap:22px;align-items:start}
 
 @media (max-width:860px){
-  .hero{grid-template-columns:1fr;gap:44px;padding:56px 0}
+  .hero{grid-template-columns:1fr;gap:44px;padding-block:56px}
   .steps{grid-template-columns:1fr;gap:28px}
-  .nav-links{gap:18px}
+  .nav-links{gap:14px 16px;flex-wrap:wrap;justify-content:flex-end}
+  .nav-app{padding:5px 11px;font-size:14px}
 }
 /* patch_www01_logo: screened logo watermark (delete this block to remove) */
 .hero{position:relative;isolation:isolate}
 .hero::after{content:"";position:absolute;right:-90px;bottom:-40px;width:440px;height:440px;background:url(verisphere-icon.png) center/contain no-repeat;opacity:.06;z-index:-1;pointer-events:none}
 @media (max-width:880px){.hero::after{display:none}}
+/* patch_www04_mobile_gutter: the watermark bleeds 90px past the hero; clip it at the page edge instead of growing the page (laptops at 1000–1180px had a horizontal scrollbar). */
+main{overflow-x:clip}
 </style>
 </head>
 <body>
@@ -109,6 +120,7 @@ footer{border-top:1px solid var(--line);background:var(--lilac)}
       <a href="https://github.com/VerisphereVSP">GitHub</a>
       <a href="https://github.com/VerisphereVSP/core/blob/main/SECURITY.md">Security</a>
       <a href="mailto:info@verisphere.co">Contact</a>
+      <a class="nav-app" href="https://app.verisphere.co/">Open the app</a><!-- patch_www03_app_link -->
     </nav>
   </div>
 </header>
@@ -117,8 +129,11 @@ footer{border-top:1px solid var(--line);background:var(--lilac)}
   <section class="hero wrap">
     <div>
       <h1>Stake on<br>what's <span class="true">true</span>.</h1>
-      <p class="sub">Verisphere is a claims-verification protocol on Avalanche. Anyone can post a public claim; anyone can <b>stake tokens on its accuracy</b> — supporting it or challenging it. Epoch by epoch, stakes on the accurate side earn from the inaccurate side.</p>
-      <div class="pill"><span class="dot"></span>Pre-launch — live on Avalanche Fuji testnet</div>
+      <p class="sub">Verisphere is a claims-verification protocol on Avalanche. Anyone can post a public claim; anyone can <b>stake tokens on its accuracy</b> — supporting it or challenging it. Epoch by epoch, accurate stakes gain and inaccurate stakes lose, each on its own terms.</p>
+      <div class="cta-row">
+        <div class="pill"><span class="dot"></span>Private beta — live on Avalanche C-Chain</div>
+        <a class="btn-app" href="https://app.verisphere.co/">Open the app →</a>
+      </div>
     </div>
 
     <div class="claim" role="img" aria-label="Example claim card: a public claim with support and challenge stakes, verified by stake">
@@ -157,7 +172,7 @@ footer{border-top:1px solid var(--line);background:var(--lilac)}
     <div class="wrap">
       <h2>Where things stand</h2>
       <div class="facts">
-        <div class="fact"><div class="k">STATUS</div><div class="v">Pre-launch · Fuji testnet (chain 43113)</div></div>
+        <div class="fact"><div class="k">STATUS</div><div class="v">Private beta · Avalanche C-Chain (chain 43114) · <a href="https://app.verisphere.co/">open the app</a></div></div>
         <div class="fact"><div class="k">CONTRACTS</div><div class="v"><a href="https://github.com/VerisphereVSP/core">Public on GitHub</a></div></div>
         <div class="fact"><div class="k">SECURITY</div><div class="v">Independent review underway · <a href="https://github.com/VerisphereVSP/core/blob/main/SECURITY.md">disclosure policy</a></div></div>
         <div class="fact"><div class="k">REVENUE MODEL</div><div class="v">Protocol fees</div></div>
@@ -173,6 +188,7 @@ footer{border-top:1px solid var(--line);background:var(--lilac)}
       Verisphere develops software. It is non-custodial and is not an exchange, broker, or money services business. Nothing on this page is an offer to sell any asset.
     </div>
     <div class="links">
+      <a href="https://app.verisphere.co/">App</a>
       <a href="https://github.com/VerisphereVSP">GitHub</a>
       <a href="mailto:info@verisphere.co">info@verisphere.co</a>
       <span>© 2026 Verisphere Corp.</span>
