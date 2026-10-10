@@ -23,14 +23,15 @@ a{color:var(--violet-deep);text-decoration:none}
 a:hover{text-decoration:underline}
 a:focus-visible,button:focus-visible{outline:3px solid var(--violet);outline-offset:2px;border-radius:4px}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+/* patch_www04_mobile_gutter: .nav/.hero/.foot share the .wrap element; their vertical padding must not zero its 24px side gutter (it did, so phones had none). */
 
 header{border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+.nav{display:flex;align-items:center;justify-content:space-between;padding-block:20px}
 .brand{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:700;letter-spacing:.14em;font-size:15px;color:var(--ink)}
 .brand svg{display:block}
 .nav-links{display:flex;gap:26px;font-size:15px;font-weight:500}
 
-.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding:84px 0 72px}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding-block:84px 72px}
 h1{font-family:var(--display);font-weight:700;font-size:clamp(40px,5.4vw,62px);line-height:1.04;letter-spacing:-.015em}
 h1 .true{color:var(--violet);position:relative;white-space:nowrap}
 h1 .true::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.14em;background:var(--lilac);z-index:-1}
@@ -88,12 +89,12 @@ h1 .true::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:
 .fact .v a{color:var(--ink)}
 
 footer{border-top:1px solid var(--line);background:var(--lilac)}
-.foot{padding:36px 0;display:flex;flex-wrap:wrap;gap:18px 40px;justify-content:space-between;font-size:14.5px;color:var(--muted)}
+.foot{padding-block:36px;display:flex;flex-wrap:wrap;gap:18px 40px;justify-content:space-between;font-size:14.5px;color:var(--muted)}
 .foot .legal{max-width:56ch}
 .foot .links{display:flex;gap:22px;align-items:start}
 
 @media (max-width:860px){
-  .hero{grid-template-columns:1fr;gap:44px;padding:56px 0}
+  .hero{grid-template-columns:1fr;gap:44px;padding-block:56px}
   .steps{grid-template-columns:1fr;gap:28px}
   .nav-links{gap:14px 16px;flex-wrap:wrap;justify-content:flex-end}
   .nav-app{padding:5px 11px;font-size:14px}
@@ -102,6 +103,8 @@ footer{border-top:1px solid var(--line);background:var(--lilac)}
 .hero{position:relative;isolation:isolate}
 .hero::after{content:"";position:absolute;right:-90px;bottom:-40px;width:440px;height:440px;background:url(verisphere-icon.png) center/contain no-repeat;opacity:.06;z-index:-1;pointer-events:none}
 @media (max-width:880px){.hero::after{display:none}}
+/* patch_www04_mobile_gutter: the watermark bleeds 90px past the hero; clip it at the page edge instead of growing the page (laptops at 1000–1180px had a horizontal scrollbar). */
+main{overflow-x:clip}
 </style>
 </head>
 <body>
