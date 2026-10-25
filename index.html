@@ -44,6 +44,9 @@ h1 .true::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:
 .cta-row .pill{margin-top:0}
 .btn-app{display:inline-flex;align-items:center;padding:11px 20px;border-radius:999px;background:var(--violet);color:#fff;font-weight:600;font-size:15px;box-shadow:0 10px 24px -12px rgba(55,41,155,.6)}
 .btn-app:hover{text-decoration:none;filter:brightness(1.08)}
+/* patch_www06_extension_link: the Chrome extension (Web Store) beside the app button */
+.btn-ext{display:inline-flex;align-items:center;padding:10px 19px;border-radius:999px;border:1px solid var(--violet);color:var(--violet-deep);font-weight:600;font-size:15px;background:#fff}
+.btn-ext:hover{background:var(--violet);color:#fff;text-decoration:none}
 .nav-app{padding:7px 14px;border:1px solid var(--violet);border-radius:999px;color:var(--violet-deep)}
 .nav-app:hover{background:var(--violet);color:#fff;text-decoration:none}
 
@@ -133,6 +136,7 @@ main{overflow-x:clip}
       <div class="cta-row">
         <div class="pill"><span class="dot"></span>Private beta — live on Avalanche C-Chain</div>
         <a class="btn-app" href="https://app.verisphere.co/">Open the app →</a>
+        <a class="btn-ext" href="https://chromewebstore.google.com/detail/hlpjnfmmhgccpnnildibenneggffkbok" rel="noopener">Get the Chrome extension</a><!-- patch_www06_extension_link -->
       </div>
     </div>
 
@@ -173,6 +177,7 @@ main{overflow-x:clip}
       <h2>Where things stand</h2>
       <div class="facts">
         <div class="fact"><div class="k">STATUS</div><div class="v">Private beta · Avalanche C-Chain (chain 43114) · <a href="https://app.verisphere.co/">open the app</a></div></div>
+        <div class="fact"><div class="k">EXTENSION</div><div class="v">Underlines stakeable claims on Wikipedia · <a href="https://chromewebstore.google.com/detail/hlpjnfmmhgccpnnildibenneggffkbok" rel="noopener">Chrome Web Store</a></div></div><!-- patch_www06_extension_link -->
         <div class="fact"><div class="k">CONTRACTS</div><div class="v"><a href="https://github.com/VerisphereVSP/core">Public on GitHub</a></div></div>
         <div class="fact"><div class="k">SECURITY</div><div class="v">Independent review underway · <a href="https://github.com/VerisphereVSP/core/blob/main/SECURITY.md">disclosure policy</a></div></div>
         <div class="fact"><div class="k">REVENUE MODEL</div><div class="v">Protocol fees</div></div>
@@ -189,6 +194,7 @@ main{overflow-x:clip}
     </div>
     <div class="links">
       <a href="https://app.verisphere.co/">App</a>
+      <a href="https://chromewebstore.google.com/detail/hlpjnfmmhgccpnnildibenneggffkbok" rel="noopener">Extension</a><!-- patch_www06_extension_link -->
       <a href="https://github.com/VerisphereVSP">GitHub</a>
       <a href="https://app.verisphere.co/docs/viewer.html?file=tos.md">Terms</a><!-- patch_www05_legal_links -->
       <a href="https://app.verisphere.co/docs/viewer.html?file=privacy.md">Privacy</a>
